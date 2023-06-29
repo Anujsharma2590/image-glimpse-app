@@ -1,0 +1,7 @@
+node_modules/
+dist
+*.log
+lib
+.temp_cache
+config.json
+eks_cicd/
