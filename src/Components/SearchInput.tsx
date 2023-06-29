@@ -63,7 +63,7 @@ const SearchInput: FC<SearchInputProps> = ({
         <Dropdown menu={searchQueryMenu} trigger={['click']}>
           <input
             type="text"
-            placeholder="Search"
+            placeholder="Search Images..."
             value={searchQuery}
             onChange={handleInputChange}
           />
