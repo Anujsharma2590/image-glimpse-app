@@ -38,14 +38,23 @@ const SearchInput: FC<SearchInputProps> = ({
 
   useEffect(() => {
     if (searchQuery && !previousHistory.includes(searchQuery)) {
-      const timer = setTimeout(() => {
-        const updatedItems = [...previousHistory, searchQuery]
-        setPreviousHistory(updatedItems)
-        localStorage.setItem('previousHistory', JSON.stringify(updatedItems))
-      }, 1000)
-      return () => clearTimeout(timer)
+      let timer: NodeJS.Timeout | null = null
+
+      const debounceStoreSearchQuery = () => {
+        timer = setTimeout(() => {
+          const updatedItems = [...previousHistory, searchQuery]
+          setPreviousHistory(updatedItems)
+          localStorage.setItem('previousHistory', JSON.stringify(updatedItems))
+        }, 500)
+      }
+
+      debounceStoreSearchQuery()
+
+      return () => {
+        if (timer) clearTimeout(timer)
+      }
     }
-  }, [searchQuery, previousHistory])
+  })
 
   return (
     <div className="search-input">

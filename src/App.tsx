@@ -44,11 +44,27 @@ function App() {
   }, [page])
 
   useEffect(() => {
+    let timer: NodeJS.Timeout | null = null
     if (searchQuery.trim() === '') {
       setSearchResults([])
       return
     }
-    fetchSearchResults()
+    const debounceFetchSearchResults = () => {
+      if (timer) {
+        clearTimeout(timer)
+      }
+      timer = setTimeout(() => {
+        fetchSearchResults()
+      }, 500)
+    }
+
+    debounceFetchSearchResults()
+
+    return () => {
+      if (timer) {
+        clearTimeout(timer)
+      }
+    }
   }, [searchQuery, page])
 
   async function fetchSearchResults() {
